@@ -24,7 +24,7 @@ stop(_State) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
--type slot() :: 'ones'|'twos'|'threes'|'fours'|'fives'|'sixes'|'chance'|'large_straight'|'small_straight'|'one_pair'|'two_pair'|'three_of_a_kind'|'four_of_a_kind'|'yatzy'|'full_house'.
+-type slot() :: 'ones'|'twos'|'threes'|'fours'|'fives'|'sixes'|'chance'|'large_straight'|'small_straight'|'one_pair'|'two_pairs'|'three_of_a_kind'|'four_of_a_kind'|'yatzy'|'full_house'.
 
 -type slot_type() :: 'upper' | 'lower'.
 
