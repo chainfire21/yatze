@@ -21,9 +21,9 @@ print([],_)->
 print([H|T], Sheet) ->
     case maps:get(H,Sheet,blank) of
         blank ->
-            io:fwrite("~16w: ~s~n",[H,maps:get(H, Sheet, "")]);
-        _ ->
-            io:fwrite("~16w: ~p~n",[H,maps:get(H, Sheet)])
+            io:fwrite("~16w: ~s~n",[H,""]);
+        X ->
+            io:fwrite("~16w: ~p~n",[H,X])
     end,
     print(T, Sheet).
 
