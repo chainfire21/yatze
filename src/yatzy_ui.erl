@@ -1,14 +1,48 @@
 -module(yatzy_ui).
 -export([print_sheet/1,
-    print/2
-    % start_game/1
+    print/2,
+    start_game/0,
+    get_players/2
 ]).
 
-% start_game([])->
-%     io:write().
-% start_game([H|T])->
-%     .
+start_game()->
+    case io:fread("How many players? ","~d") of
+        {ok, [X]}->
+            get_players(X,[]);
+        {error,Reason}->
+            io:fwrite("Error ~p",[Reason])
+    end.
 
+get_players(N,List)->
+    case N of
+        X when X>0 ->
+            case io:fread("Player name: ","~a") of
+                {ok,Name} ->
+                    NewName = lists:nth(1,Name),
+                    yatzy_player:new(NewName),
+                    NList = List ++ Name,
+                    get_players(N-1,NList);
+                {error,Reason}->
+                    io:fwrite("Error ~p",[Reason])
+            end;
+        _ ->
+            option_state(1,List)
+    end.
+    
+option_state(Turn,PlayerList)->
+    case Turn rem length(PlayerList) of
+        X ->
+            CurrentPlayer = lists:nth(X,PlayerList),
+            io:fwrite("Player ~p is up!~n",[CurrentPlayer]),
+            {ok,TurnPid} = yatzy_turn:start(),
+            io:fwrite("Here are your dice: ~p~n",[yatzy_turn:dice(TurnPid)]),
+            case io:fread("Reroll some dice?(y/n)","~a") of
+                {ok,[y]} ->
+                    io:fread("Enter dice to keep separated by spaces")
+                {ok,[n]}->
+
+            end;
+    end.
 
 
 print_sheet(Sheet)->
